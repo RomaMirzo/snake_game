@@ -2,6 +2,11 @@
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
 
+    // определяем кнопку старта
+    var btnStart = document.getElementById('start');
+    // определяем кнопку рестарта
+    var btnRestart = document.getElementById('restart');
+
     // Получаем ширину и высоту canvas
     var width = canvas.width;
     var height = canvas.height;
@@ -40,6 +45,9 @@
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText("Game over", width / 2, height / 2);
+
+      btnStart.style.display = "none";
+      btnRestart.style.display = "block";
     };
 
     // Рисуем окружность
@@ -208,7 +216,8 @@
     var apple = new Apple();
 
     // Запускаем функцию анимации через setInterval
-    var playing = true;
+    // var playing = true;
+    var playing = false;
     var animationTime = 100;
 
     // Создаем функцию игрового цикла, вызывающую саму себя используя setTimeout
@@ -226,8 +235,23 @@
       }
     };
 
-    // Начинаем игровой цикл
+    // Отрисовываем игровое поле
     gameLoop();
+
+    function startGame() {
+      playing = true;
+      // Начинаем игровой цикл
+      gameLoop();
+      btnStart.removeEventListener('click', startGame);
+    }
+    
+    // запускаем игру
+    btnStart.addEventListener('click', startGame);
+
+    // перезапускаем игру
+    btnRestart.addEventListener('click', () => {
+      window.location.reload()
+    });
 
     // Преобразуем коды клавиш в направления
     var directions = {
